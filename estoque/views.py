@@ -19,8 +19,8 @@ def adicionar_produto(request):
     context = {'form': form}
     return render(request, 'estoque/adicionar_produto.html', context)
 
-def editar_produto(request, produto_id):
-    produto = Produto.objects.get(id=produto_id)
+def editar_produto(request, pk):
+    produto = get_object_or_404(Produto, pk=pk)
     if request.method == 'POST':
         form = ProdutoForm(request.POST, instance=produto)
         if form.is_valid():
@@ -28,7 +28,7 @@ def editar_produto(request, produto_id):
             return redirect('lista_produtos')
     else:
         form = ProdutoForm(instance=produto)
-    context = {'form': form, 'produto': produto}
+    context = {'form': form}
     return render(request, 'estoque/editar_produto.html', context)
 
 def deletar_produto(request, produto_id):
